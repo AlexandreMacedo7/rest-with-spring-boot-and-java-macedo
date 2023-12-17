@@ -1,21 +1,59 @@
 package br.com.macedo;
 
-import java.util.concurrent.atomic.AtomicLong;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class GreetingController {
+import br.com.macedo.exceptions.UnsupportedMathOperationException;
 
-	private static final String templete = "Hello, %s!";
-	private final AtomicLong counter = new AtomicLong();
+@RestController
+public class MathController {
 	
-	@RequestMapping("/greeting")
-	public Greeting greeting(
-			@RequestParam(value = "name", defaultValue = "World")String name){
-		return new Greeting(counter.incrementAndGet(), String.format(templete, name));
+	private final CalcService service = new CalcService();
+
+	@RequestMapping(value = "/sum/{numberOne}/{numberTwo}", method = RequestMethod.GET)
+	public Double sum(
+			@PathVariable(value = "numberOne") String numberOne,
+			@PathVariable(value = "numberTwo") String numberTwo) throws Exception {
+			
+		return service.sum(numberOne, numberTwo);
 	}
 	
+	@RequestMapping(value = "/sub/{numberOne}/{numberTwo}", method = RequestMethod.GET)
+	public Double sub(
+			@PathVariable(value = "numberOne") String numberOne,
+			@PathVariable(value = "numberTwo") String numberTwo) throws Exception {
+		
+		return service.sub(numberOne, numberTwo);
+	}
+	
+	@RequestMapping(value = "/mult/{numberOne}/{numberTwo}", method = RequestMethod.GET)
+	public Double mult(
+			@PathVariable(value = "numberOne") String numberOne,
+			@PathVariable(value = "numberTwo") String numberTwo) throws Exception {
+		
+		return service.mult(numberOne, numberTwo);
+	}
+	
+	@RequestMapping(value = "/div/{numberOne}/{numberTwo}", method = RequestMethod.GET)
+	public Double div(
+			@PathVariable(value = "numberOne") String numberOne,
+			@PathVariable(value = "numberTwo") String numberTwo) throws Exception {
+		
+		return service.div(numberOne, numberTwo);
+	}
+	
+	@RequestMapping(value = "/mean/{numberOne}/{numberTwo}", method = RequestMethod.GET)
+	public Double mean(
+			@PathVariable(value = "numberOne") String numberOne,
+			@PathVariable(value = "numberTwo") String numberTwo) throws Exception {
+		
+		return service.mean(numberOne, numberTwo);
+	}
+	@RequestMapping(value = "/squar/{numberOne}", method = RequestMethod.GET)
+	public Double squar(@PathVariable(value = "numberOne") String numberOne) throws Exception {
+		
+		return service.squart(numberOne);
+	}
 }
